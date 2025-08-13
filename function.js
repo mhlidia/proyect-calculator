@@ -2,9 +2,14 @@ let resultadoMostrado=false;
 
 let pantalla = document.getElementById("pantalla");
 
+let historial=[];
+let historialDiv= document.getElementById("historial");
+
 function agregar(valor) {
     if(resultadoMostrado){
-        pantalla.value= ""; //limpiamos la pantalla
+        if(!isNaN(valor) || valor == '('){
+            pantalla.value="";
+        }
         resultadoMostrado=false;
     }
     if (valor === 'π') {
@@ -31,37 +36,13 @@ function borrar() {
     pantalla.value = pantalla.value.slice(0, -1);
 }
 
-/*function funcion(tipo) {
-    let valor = pantalla.value;
-    let resultado;
 
-    try {
-        switch (tipo) {
-        case 'sin':
-            resultado = Math.sin(gradosARadianes(eval(valor)));
-            break;
-        case 'cos':
-            resultado = Math.cos(gradosARadianes(eval(valor)));
-            break;
-        case 'tan':
-            resultado = Math.tan(gradosARadianes(eval(valor)));
-            break;
-        case 'log':
-            resultado = Math.log10(eval(valor));
-            break;
-        case 'sqrt':
-            resultado = Math.sqrt(eval(valor));
-            break;
-        }
-        pantalla.value = resultado;
-    } catch (e) {
-        pantalla.value = "Error";
-    }
-}*/
 
 function calcular() {
     try {
-        let expresion = pantalla.value
+        let expresion = pantalla.value;
+        let expresionOriginal=expresion; //variable para el historial
+        expresion= expresion
             .replace(/\^/g, '**') //potencia
             .replace(/π/g, Math.PI.toFixed(8))
             .replace(/sin\(/g, 'Math.sin(')
@@ -70,17 +51,20 @@ function calcular() {
             .replace(/log\(/g, 'Math.log10(')
             .replace(/sqrt\(/g, 'Math.sqrt(');
 
-        pantalla.value = eval(expresion);
+        let resultado = eval(expresion);
+        pantalla.value = resultado;
         resultadoMostrado=true; //Marca para saber que se mostro el resultado
+
+        //guardamos la operacion en el historial
+        historial.push(`${expresionOriginal} = ${resultado}`);
+        actualizarHistorial();
     } catch (e) {
         pantalla.value = "Error";
         resultadoMostrado=false;
     }
 }
 
-/*function gradosARadianes(grados) {
-    return grados * (Math.PI / 180);
-}*/
+
 
 //permitir que se ingrese datos por teclado
 document.addEventListener("keydown", function (event) {
@@ -113,3 +97,16 @@ document.getElementById("toggleModo").addEventListener("click", function () {
         this.textContent = "🌙";
     }
 });
+
+//mostrar historial en pantalla
+function actualizarHistorial(){
+    historialDiv.innerHTML = historial.join("<br>");
+}
+
+//borrar el historial
+document.getElementById("borrarHistorial").addEventListener("click", borrarHistorial);
+
+function borrarHistorial() {
+    historial = [];
+    actualizarHistorial();
+}

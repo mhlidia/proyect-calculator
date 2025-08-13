@@ -23,6 +23,7 @@ body {
   padding: 5px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  margin-right: 10px;
 }
 
 .botones {
@@ -98,4 +99,59 @@ body.dark-mode .igual {
 
 body.dark-mode .igual:hover {
   background-color: #0944b3;
+}
+
+/*------historial--------*/
+#historial {
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    width: 350px;
+    font-size: 14px;
+    height: 100px;
+    overflow-y: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    margin-left: 20px;
+}
+/*historial-modo oscuro*/
+body.dark-mode #historial {
+    background-color: #2b2b2b;
+    border: 1px solid #555;
+    color: #ffffff;
+}
+
+#historial::-webkit-scrollbar {
+    width: 6px;
+}
+#historial::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+#historial::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+/*boton para borrar historial*/
+#borrarHistorial {
+    margin-top: 75px;
+    padding: 5px 10px;
+    background-color: #98f35c;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+#borrarHistorial:hover {
+    background-color: #6cf51d;
+}
+
+body.dark-mode #borrarHistorial {
+    background-color: #888;
+}
+
+body.dark-mode #borrarHistorial:hover {
+    background-color: #555;
 }
