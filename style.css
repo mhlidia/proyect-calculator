@@ -116,6 +116,9 @@ body.dark-mode .igual:hover {
     margin-left: 20px;
 }
 /*historial-modo oscuro*/
+.historial-container {
+  margin-left: 20px;
+}
 body.dark-mode #historial {
     background-color: #2b2b2b;
     border: 1px solid #555;

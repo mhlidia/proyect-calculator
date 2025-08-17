@@ -1,9 +1,10 @@
 let resultadoMostrado=false;
 
 let pantalla = document.getElementById("pantalla");
-
-let historial=[];
 let historialDiv= document.getElementById("historial");
+//cargar el historial desde localstorage
+let historial= JSON.parse(localStorage.getItem("historial")) || [];
+actualizarHistorial();
 
 function agregar(valor) {
     if(resultadoMostrado){
@@ -25,7 +26,6 @@ function agregarFuncion(nombreFuncion){
         resultadoMostrado = false;
     }
     pantalla.value += nombreFuncion + '(';
-    //``
 }
 
 function limpiar() {
@@ -35,8 +35,6 @@ function limpiar() {
 function borrar() {
     pantalla.value = pantalla.value.slice(0, -1);
 }
-
-
 
 function calcular() {
     try {
@@ -57,6 +55,7 @@ function calcular() {
 
         //guardamos la operacion en el historial
         historial.push(`${expresionOriginal} = ${resultado}`);
+        localStorage.setItem("historial", JSON.stringify(historial));
         actualizarHistorial();
     } catch (e) {
         pantalla.value = "Error";
@@ -64,7 +63,19 @@ function calcular() {
     }
 }
 
+//mostrar historial en pantalla
+function actualizarHistorial(){
+    historialDiv.innerHTML = historial.slice().reverse().join("<br>");
+}
 
+//borrar el historial
+document.getElementById("borrarHistorial").addEventListener("click", borrarHistorial);
+
+function borrarHistorial() {
+    historial = [];
+    localStorage.removeItem("historial");
+    actualizarHistorial();
+}
 
 //permitir que se ingrese datos por teclado
 document.addEventListener("keydown", function (event) {
@@ -97,16 +108,3 @@ document.getElementById("toggleModo").addEventListener("click", function () {
         this.textContent = "🌙";
     }
 });
-
-//mostrar historial en pantalla
-function actualizarHistorial(){
-    historialDiv.innerHTML = historial.join("<br>");
-}
-
-//borrar el historial
-document.getElementById("borrarHistorial").addEventListener("click", borrarHistorial);
-
-function borrarHistorial() {
-    historial = [];
-    actualizarHistorial();
-}
